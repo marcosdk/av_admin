@@ -1,0 +1,7 @@
+.foto-3x4 {
+  width: 120px;   /* proporcional a 3x4 */
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

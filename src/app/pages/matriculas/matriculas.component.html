@@ -1,0 +1,109 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Matrículas</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Matrículas</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+
+            <!-- FILTROS -->
+            <div class="row align-items-end mb-5">
+              
+              <div class="col-sm-3">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" [(ngModel)]="nome">
+              </div>
+
+              <div class="col-sm-3">
+                <label class="form-label">CPF</label>
+                <input type="text" class="form-control" [(ngModel)]="cpf">
+              </div>
+
+              <div class="col-sm-3">
+                <label class="form-label">Celular</label>
+                <input type="text" class="form-control" [(ngModel)]="telefone">
+              </div>
+
+              <div class="col-sm-3">
+                <button class="btn btn-dark w-100" (click)="pesquisar()">Pesquisar</button>
+              </div>
+            </div>
+
+            <!-- TABELA -->
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Celular</th>
+                    <th>Cidade</th>
+                    <th>Unidade 2025</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let m of matriculas">
+                    <td>{{ m.nomeCompleto }}</td>
+                    <td>{{ m.cpf | cpfFormat }}</td>
+                    <td>{{ m.celular | phoneFormat }}</td>
+                    <td>{{ m.cidade }}</td>
+                    <td>{{ m.unidade2025 }}</td>
+                    <td>
+                      <button class="btn btn-dark" (click)="editar(m.cpf)">Editar</button>
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="matriculas.length === 0">
+                    <td colspan="6" class="text-center">Nenhuma matrícula encontrada</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- PAGINAÇÃO -->
+            <nav aria-label="Page navigation example" *ngIf="totalPages > 1">
+              <ul class="pagination justify-content-end">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link text-custom" (click)="previousPage()">Anterior</a>
+                </li>
+
+                <li
+                  *ngFor="let p of [].constructor(totalPages); let i = index"
+                  class="page-item"
+                  [class.active]="currentPage === i + 1">
+                  <a class="page-link text-custom" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+                </li>
+
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link text-custom" (click)="nextPage()">Próxima</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="text-center">
+                 <button class="btn btn-dark" (click)="downloadExcel()">Exportar TUDO P/ Excel</button>
+            </div>
+          </div>
+
+         
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>

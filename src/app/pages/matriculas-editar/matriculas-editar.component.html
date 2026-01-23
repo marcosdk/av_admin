@@ -1,0 +1,332 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Matrículas</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/matriculas" routerLinkActive="active">Matrículas</a></li>
+        <li class="breadcrumb-item active">{{ cpf === 'novo' ? 'Novo' : 'Editar' }}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <h5 class="card-title">Dados do Desbravador</h5>
+
+        
+
+        <!-- DADOS PESSOAIS -->
+        <div class="row">
+
+
+
+          <div class="row mb-4">
+
+  <!-- FOTO À ESQUERDA -->
+  <div class="col-md-3 text-center d-flex align-items-start">
+    <img
+      *ngIf="matricula.fotoUrl"
+      [src]="matricula.fotoUrl"
+      alt="Foto do desbravador"
+      class="foto-3x4"
+    >
+    <div *ngIf="!matricula.fotoUrl" class="text-muted small">
+      (Sem foto cadastrada)
+    </div>
+  </div>
+
+  <!-- CAMPOS PRINCIPAIS À DIREITA -->
+  <div class="col-md-9">
+
+    <div class="row">
+      <div class="col-12 mb-3">
+        <label>Nome Completo</label>
+        <input type="text" class="form-control" [(ngModel)]="matricula.nomeCompleto" name="nomeCompleto">
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>CPF</label>
+        <input type="text" class="form-control" [(ngModel)]="matricula.cpfDoc" name="cpfDoc" disabled>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label>Sexo</label>
+        <select class="form-select" [(ngModel)]="matricula.sexo" name="sexo">
+          <option value="">--</option>
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+      </div>
+
+     
+    </div>
+
+  </div>
+</div>
+ <div class="col-md-6 mb-3">
+        <label>Data de Nascimento (DD/MM/AAAA)</label>
+        <input type="text" class="form-control" [(ngModel)]="matricula.dataNascimento" name="dataNascimento" placeholder="DD/MM/AAAA">
+      </div>
+          <div class="col-md-6 mb-3">
+            <label>Celular</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.celular" name="celular" placeholder="(00) 00000-0000">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>E-mail</label>
+            <input type="email" class="form-control" [(ngModel)]="matricula.email" name="email">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Veio de outro clube?</label>
+            <select class="form-select" [(ngModel)]="matricula.veioOutroClube" name="veioOutroClube">
+              <option value="">--</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Nome do Clube</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.nomeClube" name="nomeClube">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Associação</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.associacao" name="associacao">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Unidade em 2025</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.unidade2025" name="unidade2025" disabled>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Unidade em 2026</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.unidade2026" name="unidade2026" disabled>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label>Nº RG</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.rg" name="rg">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Órgão Expedidor</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.orgaoExpedidor" name="orgaoExpedidor">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Data de Expedição do RG (DD/MM/AAAA)</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.dtExpedicaoRg" name="dtExpedicaoRg" placeholder="DD/MM/AAAA">
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- ENDEREÇO -->
+        <h5 class="card-title">Endereço</h5>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label>CEP</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.cep" name="cep" placeholder="00000-000">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Endereço</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.endereco" name="endereco">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label>Número</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.numero" name="numero">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Complemento</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.complemento" name="complemento">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Bairro</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.bairro" name="bairro">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Cidade</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.cidade" name="cidade">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Estado</label>
+            <select class="form-select" [(ngModel)]="matricula.estado" name="estado">
+              <option value="">--</option>
+              <option *ngFor="let uf of ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO']" [value]="uf">{{ uf }}</option>
+            </select>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- RESPONSÁVEIS (mostrar mesmo se maior; indicar que é para menor) -->
+        <h5 class="card-title">Responsáveis (preencher se menor)</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Nome do Pai</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.nomePaiResp" name="nomePaiResp">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Celular do Pai</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.celularPai" name="celularPai" placeholder="(00) 00000-0000">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Nome da Mãe</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.nomeMaeResp" name="nomeMaeResp">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Celular da Mãe</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.celularMae" name="celularMae" placeholder="(00) 00000-0000">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Nome do Responsável (se diferente)</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.nomeResponsavel" name="nomeResponsavel">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Celular do Responsável</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.celularResponsavel" name="celularResponsavel" placeholder="(00) 00000-0000">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Grau de Parentesco</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.grauParentesco" name="grauParentesco">
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- FICHA DE SAÚDE -->
+        <h5 class="card-title">Ficha de Saúde</h5>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label>Tipo Sanguíneo</label>
+            <select class="form-select" [(ngModel)]="matricula.tipoSanguineo" name="tipoSanguineo">
+              <option value="">--</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Plano de Saúde</label>
+            <select class="form-select" [(ngModel)]="matricula.planoSaude" name="planoSaude">
+              <option value="">--</option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Qual Plano</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.qualPlano" name="qualPlano">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Nº da Carteirinha</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.numeroCarteirinha" name="numeroCarteirinha">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Peso (kg)</label>
+            <input type="number" step="0.01" class="form-control" [(ngModel)]="matricula.peso" name="peso">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Altura (m)</label>
+            <input type="number" step="0.01" class="form-control" [(ngModel)]="matricula.altura" name="altura">
+          </div>
+
+          
+
+          <div class="col-12 mb-3">
+            <label>Descrição das alergias / restrições</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="matricula.outraAlergiaDesc" name="outraAlergiaDesc"></textarea>
+          </div>
+
+          <div class="col-12 mb-3">
+            <label>Problemas de Saúde Recentes</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="matricula.problemasSaudeRecente" name="problemasSaudeRecente"></textarea>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- AUTORIZAÇÃO DE SAÍDA -->
+        <h5 class="card-title">Autorização de Saída (preencher se menor)</h5>
+        <div class="row">
+          
+
+          <div class="col-md-6 mb-3">
+            <label>Nome do Responsável (para saída)</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.nomeResponsavelSaida" name="nomeResponsavelSaida">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>CPF do Responsável (para saída)</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.cpfResponsavelSaida" name="cpfResponsavelSaida" placeholder="000.000.000-00">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Tipo de autorização de saída</label>
+            <select class="form-select" [(ngModel)]="matricula.tipoAutorizacaoSaida" name="tipoAutorizacaoSaida">
+              <option value="">--</option>
+              <option value="Sair sozinho">Sair sozinho</option>
+              <option value="Sair com pessoas específicas">Sair com pessoas específicas</option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Pessoa Autorizada 1</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.pessoaAutorizada1" name="pessoaAutorizada1">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Pessoa Autorizada 2</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.pessoaAutorizada2" name="pessoaAutorizada2">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label>Pessoa Autorizada 3</label>
+            <input type="text" class="form-control" [(ngModel)]="matricula.pessoaAutorizada3" name="pessoaAutorizada3">
+          </div>
+        </div>
+
+
+       
+        
+
+
+
+        <br>
+
+        <div class="text-center">
+          <button type="button" class="btn btn-dark me-2 disabled" (click)="salvar()">Salvar</button>
+          <button type="button" class="btn btn-dark me-2" (click)="gerarPdf()"> Gerar PDF </button>
+          <button type="button" class="btn btn-dark me-2" (click)="voltar()">Voltar</button>
+
+          
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>

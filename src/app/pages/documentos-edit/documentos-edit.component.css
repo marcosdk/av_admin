@@ -1,0 +1,39 @@
+/* ===== Ajuste geral do modal ===== */
+.cropper-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* ===== Container interno ===== */
+.cropper-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  max-width: 90vw; /* limita largura máxima */
+  max-height: 90vh; /* limita altura máxima */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== O cropper ===== */
+image-cropper {
+  width: 100%;
+  height: auto;
+  max-height: 70vh; /* impede que ultrapasse a altura da tela */
+  object-fit: contain;
+}
+
+

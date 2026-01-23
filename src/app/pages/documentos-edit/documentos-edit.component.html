@@ -1,0 +1,271 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Cadastro de Documentos</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/documentos" routerLinkActive="active">Documentos</a></li>
+        <li class="breadcrumb-item active">{{ id === 'novo' ? 'Novo' : 'Editar' }}</li>
+
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Dados do Desbravador</h5>
+            <!-- Multi Columns Form -->
+            <form class="row g-3" (ngSubmit)="saveData()">
+              <div class="col-md-12">
+                <label for="inputName5" class="form-label">Nome Desbravador</label>
+                <input type="text" class="form-control" id="inputName5" [(ngModel)]="formData.NOME_DESBRAVADOR" name="nomeDesbravador">
+              </div>
+
+
+              <!-- Nova seção para arquivos -->
+              <div class="col-md-6">
+                <label for="inputCpf" class="form-label">CPF</label>
+                <input type="text" class="form-control" id="inputCpf" [(ngModel)]="formData.CPF_DESBRAVADOR" name="cpfDesbravador">
+              </div>
+              <div class="col-md-6">
+                  <label for="inputRG" class="form-label">RG</label>
+                  <input type="text" class="form-control" id="inputRG" [(ngModel)]="formData.RG_DESBRAVADOR" name="rgDesbravador">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputRG" class="form-label">Data de Nascimento</label>
+                  <input type="text" class="form-control" id="inputDataNascimento" [(ngModel)]="formData.DATA_NASCIMENTO" name="dataNascimento" mask="00/00/0000">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputRG" class="form-label">Telefone Celular</label>
+                  <input type="text" class="form-control" id="inputTelefoneCeluluar" [(ngModel)]="formData.TELEFONE_CELULAR" name="telefoneCelular" mask="(00) 00000-0000">
+                </div>
+              <div class="col-12">
+                <label for="inputNomeResponsavel" class="form-label">Nome Responsável</label>
+                <input type="text" class="form-control" id="inputNomeResponsavel" [(ngModel)]="formData.NOME_RESPONSAVEL" name="nomeResponsavel">
+              </div>
+
+              <div class="col-md-6">
+                  <label for="inputCpf" class="form-label">CPF Responsável</label>
+                  <input type="text" class="form-control" id="inputCpfResponsavel" [(ngModel)]="formData.CPF_RESPONSAVEL" name="cpfResonsavel">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputRG" class="form-label">RG Responsável</label>
+                    <input type="text" class="form-control" id="inputRGResposnsavel" [(ngModel)]="formData.RG_RESPONSAVEL" name="rgResponsavel">
+                  </div>
+
+              <div class="col-md-6">
+                <label for="inputUnidade" class="form-label">Unidade</label>
+                <select id="inputUnidade" class="form-select" [(ngModel)]="formData.UNIDADE" name="unidade">                    
+                  <option value=""></option>
+                  <option value="Apoio">Apoio</option>
+                  <option value="Ancionato">Ancionato</option>
+                  <option value="Caracal">Caracal</option>
+                  <option value="Chita">Chita</option>
+                  <option value="Cougar">Cougar</option>
+                  <option value="Executiva">Executiva</option>
+                  <option value="Gato do Deserto">Gato do Deserto</option>
+                  <option value="Gato do Mato">Gato do Mato</option>
+                  <option value="Guepardo">Guepardo</option>
+                  <option value="Guepardo Real">Guepardo Real</option>
+                  <option value="Instrutor">Instrutor</option>
+                  <option value="Jaguar">Jaguar</option>
+                  <option value="Jaguarundi">Jaguarundi</option>
+                  <option value="Jaguatirica">Jaguatirica</option>
+                  <option value="Leão">Leão</option>
+                  <option value="Leopardo">Leopardo</option>
+                  <option value="Leopardo das Neves">Leopardo das Neves</option>
+                  <option value="Lince">Lince</option>
+                  <option value="Onça-Pintada">Onça-Pintada</option>
+                  <option value="Onça-Preta">Onça-Preta</option>
+                  <option value="Oncilla">Oncilla</option>
+                  <option value="Pantera Nebulosa">Pantera Nebulosa</option>
+                  <option value="Pantera Negra">Pantera Negra</option>
+                  <option value="Puma">Puma</option>
+                  <option value="Rancho">Rancho</option>
+                  <option value="Saúde">Saúde</option>
+                  <option value="Suçuarana">Suçuarana</option>
+                  <option value="Tigre">Tigre</option>
+                  <option value="Tigre Branco">Tigre Branco</option>
+
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inputStatus" class="form-label">Status</label>
+                <select id="inputStatus" class="form-select" [(ngModel)]="formData.STATUS" name="status">
+                  <option value="" disabled selected>Selecione...</option>
+                  <option value=""></option>
+                  <option value="PENDENTE REVISÃO">PENDENTE REVISÃO</option>
+                  <option value="OK">OK</option>
+                  <option value="SOLICITAR DOCS">SOLICITAR DOCS</option>
+                </select>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-dark me-2" >Salvar</button>
+                <button type="button" class="btn btn-dark me-2" (click)="voltar()">Voltar</button>
+                <button type="button" class="btn btn-dark" (click)="confirmDelete()">Excluir</button>
+              </div>
+            </form>
+
+          </div>
+          </div>
+        </div>
+        
+        <div *ngIf="id !== 'novo'" class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Documentos</h5>
+        
+             
+        
+        
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        &nbsp;
+                      </th>
+                      <th scope="col">Documento</th>
+                      <th scope="col">Tipo de Arquivo</th>
+                      <th scope="col">Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let arquivo of arquivos">
+                      <td>
+                        <input 
+                          type="checkbox" 
+                          [disabled]="arquivo.extension.toLowerCase() !== 'jpg'"
+                          [checked]="arquivosSelecionados.includes(arquivo.file)"
+                          (change)="toggleArquivo(arquivo)"
+                        />
+                      </td>
+                      <td>{{ arquivo.nome }}</td>
+                      <td>{{ arquivo.extension }} </td>
+                      <td>
+                        <a [href]="arquivo.link" download class="btn btn-dark me-2" target="_blank">Download</a>
+                        <button class="btn btn-dark me-2  " (click)="confirmDeleteFile(arquivo.nome, arquivo.key)">Excluir</button>
+
+                        <!-- Botão de editar imagem -->
+                        <button 
+                          class="btn btn-dark" 
+                          *ngIf="arquivo.extension.toLowerCase() === 'jpg'" 
+                          (click)="editImage(arquivo)"
+                        >
+                          Editar Imagem
+                        </button>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="text-center">
+                    <div class="mt-4">
+                      <button class="btn btn-dark mb-2" (click)="selecionarTodosJPG()">Selecionar Todos (JPGs)</button>
+
+
+
+                      <button class="btn btn-dark mb-2 ms-2" 
+                      [disabled]="arquivosSelecionados.length === 0 || excluindoArquivosSelecionados" 
+                      (click)="deleteSelectedFiles()">
+                                
+                <span *ngIf="excluindoArquivosSelecionados" class="spinner-border spinner-border-sm me-2" 
+                      role="status" 
+                      aria-hidden="true"></span>
+              
+                {{ excluindoArquivosSelecionados ? 'Excluindo Arquivos ...' : 'Excluir Arquivos Selecionados' }}
+                              
+              </button>
+
+
+                      <button class="btn btn-dark mb-2 ms-2" 
+                      [disabled]="arquivosSelecionados.length === 0 || gerandoPDF" 
+                      (click)="gerarPDF()">
+                                
+                <span *ngIf="gerandoPDF" class="spinner-border spinner-border-sm me-2" 
+                      role="status" 
+                      aria-hidden="true"></span>
+              
+                {{ gerandoPDF ? 'Gerando PDF...' : 'Gerar PDF dos Selecionados' }}
+                              
+              </button>
+
+              <button class="btn btn-dark mb-2 ms-2" 
+                      [disabled]="gerandoPDFCompleto" 
+                      (click)="geraPDFCompleto()">
+                                
+                <span *ngIf="gerandoPDFCompleto" class="spinner-border spinner-border-sm me-2" 
+                      role="status" 
+                      aria-hidden="true"></span>
+              
+                {{ gerandoPDFCompleto ? 'Gerando PDF...' : 'Gerar PDF Completo' }}
+                              
+              </button>
+          </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div *ngIf="id !== 'novo'" class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Upload de Documentos</h5>
+              <div class="col-md-6">
+                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                <select id="tipoDocumento" class="form-select" [(ngModel)]="tipoDocumentoSelecionado" name="tipoDocumento">
+                  <option value="" disabled selected>Selecione...</option>
+                  <option *ngFor="let tipo of getTiposDisponiveis()" [value]="tipo.key">{{ tipo.label }}</option>
+                </select>
+              </div>
+            
+              <div class="col-md-6">
+                  <label for="uploadArquivo" class="form-label">Upload de Documento (JPG ou PDF)</label>
+                  <input type="file" class="form-control" id="uploadArquivo" (change)="onFileChange($event, 'uploadArquivo')" #fileInput>
+              </div>
+            
+              <div class="text-center">
+                  <button type="button" class="btn btn-dark mt-2" (click)="uploadDocumento()">Enviar Documento</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Cropper de Imagem -->
+        <div *ngIf="showCropper" class="cropper-modal">
+          <div class="cropper-container">
+            <image-cropper
+              *ngIf="showCropper"
+              [imageBase64]="imageBase64 ?? undefined"
+              [maintainAspectRatio]="false"
+              [aspectRatio]="1/1"
+              format="jpeg"
+              [transform]="transform" 
+              (imageCropped)="onImageCropped($event)"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()">
+            </image-cropper>
+
+
+            <div class="text-center mt-2">
+              <button class="btn btn-dark me-2" (click)="rotateImage(-90)"> ↺ Girar a Esquerda  </button>
+              <button class="btn btn-dark me-2" (click)="rotateImage(90)"> ↻ Girar a Direita  </button>
+              <button class="btn btn-dark me-2" (click)="aplicarCrop()">Visualizar</button>
+              <button class="btn btn-dark me-2" (click)="confirmCrop()">Salvar</button>              
+              <button class="btn btn-dark" (click)="cancelCrop()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </section>
+
+
+  
+
+</main>

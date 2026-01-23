@@ -1,0 +1,8 @@
+{
+  "/s3": {
+    "target": "https://pcarquivos.s3.amazonaws.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/s3": "" }
+  }
+}

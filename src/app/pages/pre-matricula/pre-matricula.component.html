@@ -1,0 +1,107 @@
+<main id="main" class="main">
+
+
+<div class="pagetitle">
+    <h1>Pré-Matrículas</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Pré-Matrículas</li>
+      </ol>
+    </nav>
+  </div>
+
+<section class="section">
+<div class="card">
+<div class="card-body">
+
+
+<!-- FILTROS -->
+<div class="row mb-4 align-items-end">
+<div class="col-md-4">
+<label>Nome</label>
+<input class="form-control" [(ngModel)]="nome">
+</div>
+<div class="col-md-4">
+<label>CPF</label>
+<input class="form-control" [(ngModel)]="cpf">
+</div>
+<div class="col-md-4">
+<button class="btn btn-dark w-100" (click)="pesquisar()">Pesquisar</button>
+</div>
+</div>
+
+
+<!-- BOTÃO NOVO -->
+<div class="mb-3 text-end">
+<button class="btn btn-dark" (click)="novo()">Novo Pré‑Cadastro</button>
+</div>
+
+
+<!-- TABELA -->
+<div class="table-responsive">
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>CPF</th>
+<th>Nome</th>
+<th>Cargo</th>
+<th>Unidade em 2025</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody>
+    <tr *ngFor="let p of registrosPaginados">
+
+
+        <td>{{ p.cpf }}</td>
+        <td>{{ p.nome }}</td>
+        <td>{{ p.descricao_do_cargo }}</td>
+        <td>{{ p.unidade }}</td>
+        <td>
+        <div class="d-flex gap-2">
+            <button class="btn btn-dark btn-sm" (click)="editar(p.cpf)">
+            Editar
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="excluir(p.cpf)">
+            Excluir
+            </button>
+        </div>
+        </td>
+    </tr>
+<tr *ngIf="registros.length === 0">
+<td colspan="5" class="text-center">Nenhum registro encontrado</td>
+</tr>
+</tbody>
+</table>
+
+<nav *ngIf="totalPaginas > 1" class="mt-3">
+  <ul class="pagination justify-content-center">
+
+    <li class="page-item" [class.disabled]="paginaAtual === 1">
+      <button class="page-link" (click)="paginaAnterior()">Anterior</button>
+    </li>
+
+    <li
+      class="page-item"
+      *ngFor="let p of [].constructor(totalPaginas); let i = index"
+      [class.active]="paginaAtual === i + 1"
+    >
+      <button class="page-link" (click)="irParaPagina(i + 1)">
+        {{ i + 1 }}
+      </button>
+    </li>
+
+    <li class="page-item" [class.disabled]="paginaAtual === totalPaginas">
+      <button class="page-link" (click)="proximaPagina()">Próxima</button>
+    </li>
+
+  </ul>
+</nav>
+</div>
+
+
+</div>
+</div>
+</section>
+</main>

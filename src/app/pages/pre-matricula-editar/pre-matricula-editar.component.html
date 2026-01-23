@@ -1,0 +1,52 @@
+<main id="main" class="main">
+ <div class="pagetitle">
+    <h1>Pré-Matrículas</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/pre-matriculas" routerLinkActive="active">Pré-Matrículas</a></li>
+        <li class="breadcrumb-item active">{{ cpf === 'novo' ? 'Novo' : 'Editar' }}</li>
+
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+
+<section class="section">
+<div class="card">
+<div class="card-body">
+
+
+<h5 class="card-title">{{ cpf === 'novo' ? 'Novo' : 'Editar' }}</h5>
+
+
+<div class="row">
+<div class="col-md-6 mb-3">
+<label>CPF</label>
+<input class="form-control" [(ngModel)]="registro.cpf" [disabled]="cpf !== 'novo'">
+</div>
+<div class="col-md-6 mb-3">
+<label>Nome</label>
+<input class="form-control" [(ngModel)]="registro.nome">
+</div>
+<div class="col-md-6 mb-3">
+<label>Cargo</label>
+<input class="form-control" [(ngModel)]="registro.descricao_do_cargo">
+</div>
+<div class="col-md-6 mb-3">
+<label>Unidade</label>
+<input class="form-control" [(ngModel)]="registro.unidade">
+</div>
+</div>
+
+
+<div class="text-center">
+<button class="btn btn-dark me-2" (click)="salvar()">Salvar</button>
+<button class="btn btn-secondary" (click)="voltar()">Voltar</button>
+</div>
+
+
+</div>
+</div>
+</section>
+</main>
