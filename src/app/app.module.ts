@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import {AuthModule} from 'angular-auth-oidc-client';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,11 +12,9 @@ import { FooterComponent } from './componentes/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DocumentosComponent } from './pages/documentos/documentos.component';
 import { DocumentosEditComponent } from './pages/documentos-edit/documentos-edit.component';
-import { AuthConfigModule } from './auth/auth-config.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from './http-token.interceptor';
 import { AuthCallbackComponent } from './componentes/auth-callback/auth-callback.component';
-import { environment } from '../environments/environment';
 import { PhoneFormatPipe } from './componentes/phone-format/phone-format.pipe';
 import { CpfFormatPipe } from './componentes/cpf-format/cpf-format.pipe';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -26,9 +24,14 @@ import { MatriculasEditarComponent } from './pages/matriculas-editar/matriculas-
 import { PrecadastroComponent } from './pages/precadastro/precadastro.component';
 import { PreMatriculaComponent } from './pages/pre-matricula/pre-matricula.component';
 import { PreMatriculaEditarComponent } from './pages/pre-matricula-editar/pre-matricula-editar.component';
+import { UsuariosListaComponent } from './pages/usuarios-lista/usuarios-lista.component';
+import { UsuariosEditarComponent } from './pages/usuarios-editar/usuarios-editar.component';
+import { LoginComponent } from './pages/login/login.component';
+import { EventosListaComponent } from './pages/eventos-lista/eventos-lista.component';
+import { EventosEditarComponent } from './pages/eventos-editar/eventos-editar.component';
 
 
-
+  
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,35 +48,20 @@ import { PreMatriculaEditarComponent } from './pages/pre-matricula-editar/pre-ma
     MatriculasEditarComponent,
     PrecadastroComponent,
     PreMatriculaComponent,
-    PreMatriculaEditarComponent,   
-    
+    PreMatriculaEditarComponent, 
+    UsuariosListaComponent,
+    UsuariosEditarComponent,
+    LoginComponent,
+    EventosListaComponent,
+    EventosEditarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule ,
-    HttpClientModule,
-    AuthConfigModule,
+    HttpClientModule,    
     ImageCropperComponent, // <- adicionar aqui, pois é standalone
-    NgxMaskDirective,
-    AuthModule.forRoot({
-      config: {
-        authority: 'https://cognito-idp.sa-east-1.amazonaws.com/sa-east-1_ukbz1G50a',
-        //redirectUrl: 'https://d2xifqim8uhfbn.cloudfront.net/auth-callback',
-        //redirectUrl: 'http://localhost:4200/auth-callback',
-        redirectUrl:environment.AuthRedirectUrl,
-        postLogoutRedirectUri: window.location.origin,
-        clientId: '7mti6kj1asbe4acqufmt84hnp1',
-        scope: 'email openid phone profile',
-        responseType: 'code',
-        silentRenew: true,
-        useRefreshToken: true,
-        // Configuração para Português Brasil
-        customParamsAuthRequest: {
-          ui_locales: 'pt-BR', // Configura o idioma preferencial
-        }
-      },
-    }) 
+    NgxMaskDirective
   ],
   providers: [
     {

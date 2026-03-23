@@ -1,5 +1,7 @@
-<app-top></app-top>
-<app-menu></app-menu>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
-
+<router-outlet *ngIf="isLoginPage"></router-outlet>
+<div *ngIf="!isLoginPage">
+    <app-top></app-top>
+    <app-menu></app-menu>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+</div>

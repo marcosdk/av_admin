@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import { CognitoService } from '../../auth/cognito.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,10 +10,10 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class MenuComponent {
 
-  constructor(private auth: AuthService) {  }
+  constructor(private cognitoService: CognitoService) {  }
 
   logout(){
-    this.auth.logout();
+    this.cognitoService.logout();
   }
 
 }

@@ -12,6 +12,11 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./documentos.component.css']
 })
 export class DocumentosComponent implements OnInit{
+
+
+  apiGatewayUrl= environment.apiUrlApiGateway;
+
+
   documentos: any[] = [];
   unidade = '';
   nome = '';
@@ -24,8 +29,7 @@ export class DocumentosComponent implements OnInit{
   totalPages = 1; // Total de páginas
   lastEvaluatedKeys: any[] = []; // Lista de lastEvaluatedKey para cada página
 
-  //apiUrl = 'https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos';
-  //apiUrl = '/api/cadastro/documentos';
+  
   apiUrl = environment.apiUrlDocumentos;
 
   selectedDocs: any[] = [];
@@ -160,13 +164,13 @@ toggleSelectAll(event: any) {
 
 
   downloadExcel() {
-    this.http.get('https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/export', {
+    this.http.get(`${this.apiGatewayUrl}/api/cadastro/export`, {
       responseType: 'blob'
     }).subscribe((data: Blob) => {
       const a = document.createElement('a');
       const url = window.URL.createObjectURL(data);
       a.href = url;
-      a.download = 'cadastro_desbravadores.xlsx';
+      a.download = 'cadastro_aventureiros.xlsx';
       a.click();
       window.URL.revokeObjectURL(url);
     });
@@ -187,7 +191,7 @@ toggleSelectAll(event: any) {
   };
 
   this.http.post<any>(
-    "https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/export/rg",
+    `${this.apiGatewayUrl}/api/cadastro/export/rg`,
     payload
   ).subscribe(
     (res) => {

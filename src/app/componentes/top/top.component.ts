@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { inject } from '@angular/core';
+import { CognitoService } from '../../auth/cognito.service';
 
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 @Component({
   selector: 'app-top',
@@ -12,51 +11,59 @@ import { inject } from '@angular/core';
 })
 export class TopComponent implements OnInit {
 
-
-  private readonly oidcSecurityService = inject(OidcSecurityService);
-
   nomeUsuario?: string;
   emailUsuario?: string;
-  dropdownVisible = false; // Controle do estado do dropdown
-  
-  isAuthenticated = false;
 
-  constructor(private authService: AuthService) {}
+  dropdownVisible = false;
+
+  constructor(private cognitoService: CognitoService) {}
+
+  async ngOnInit() {
+    await this.loadUser();
+  }
+
+  async loadUser() {
+
+    try {
+
+      const session = await fetchAuthSession();
+
+      const payload = session.tokens?.idToken?.payload;
+
+      this.emailUsuario = payload?.['email'] as string;
+      this.nomeUsuario = (payload?.['name'] as string) || this.emailUsuario;
 
 
-  ngOnInit() {
+    } catch (error) {
 
-    this.oidcSecurityService.checkAuth().subscribe((dados) => {
-      
-      if (dados.isAuthenticated) {
-        this.emailUsuario = dados.userData.email;
-        this.nomeUsuario = dados.userData.name;
-      }
-    });
+      console.warn('Usuário não autenticado');
+
+    }
 
   }
 
-  logout(){
-    this.authService.logout();
+  logout() {
+    this.cognitoService.logout();
   }
 
   toggleSidebar() {
+
     const body = document.querySelector('body');
+
     if (body) {
       body.classList.toggle('toggle-sidebar');
     }
+
   }
 
-  toggleDropdown() {
+  async toggleDropdown() {
+
     this.dropdownVisible = !this.dropdownVisible;
 
-    this.oidcSecurityService.checkAuth().subscribe((dados) => {
-      
-      if (dados.isAuthenticated) {
-        this.emailUsuario = dados.userData.email;
-        this.nomeUsuario = dados.userData.name;
-      }
-    });
-  }
-}
+    if (this.dropdownVisible) {
+      await this.loadUser();
+    }
 
+  }
+
+}

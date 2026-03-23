@@ -1,0 +1,58 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Usuários</h1>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let u of usuarios">
+              <td>{{ u.username }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.perfil }}</td>
+              <td>
+                <span [class.text-success]="u.ativo"
+                      [class.text-danger]="!u.ativo">
+                  {{ u.ativo ? 'Ativo' : 'Inativo' }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-dark btn-sm me-1" (click)="editar(u.username)">
+                  Editar
+                </button>
+                <button class="btn btn-warning btn-sm me-1"
+                        (click)="resetarSenha(u.username)">
+                  Reset Senha
+                </button>
+                <button class="btn btn-danger btn-sm"
+                        (click)="excluir(u.username)">
+                  Excluir
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="usuarios.length === 0">
+              <td colspan="5" class="text-center">Nenhum usuário encontrado</td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+  </section>
+</main>

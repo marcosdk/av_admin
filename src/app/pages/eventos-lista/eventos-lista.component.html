@@ -1,0 +1,136 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Eventos</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Eventos</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- FILTRO -->
+        <div class="row mb-4 align-items-end">
+
+          <div class="col-md-6">
+            <label>Nome</label>
+            <input class="form-control" [(ngModel)]="nome">
+          </div>
+
+          <div class="col-md-6">
+            <button class="btn btn-dark w-100" (click)="pesquisar()">
+              Pesquisar
+            </button>
+          </div>
+
+        </div>
+
+        <!-- NOVO -->
+        <div class="mb-3 text-end">
+          <button class="btn btn-dark" (click)="novo()">
+            Novo Evento
+          </button>
+        </div>
+
+        <!-- TABELA -->
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let e of registrosPaginados">
+
+                <td>{{e.name}}</td>
+                <td>{{e.date}}</td>
+
+                <td>
+                  <span class="badge"
+                    [class.bg-success]="e.active === 'true'"
+                    [class.bg-secondary]="e.active !== 'true'">
+                    {{e.active === 'true' ? 'Ativo' : 'Inativo'}}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="d-flex gap-2">
+
+                    <button
+                      class="btn btn-dark btn-sm"
+                      (click)="editar(e.id)">
+                      Editar
+                    </button>
+
+                    <button
+                        class="btn btn-sm"
+                        [class.btn-warning]="e.active === 'true'"
+                        [class.btn-success]="e.active !== 'true'"
+                        (click)="toggle(e)">
+                        
+                        {{ e.active === 'true' ? 'Desativar' : 'Ativar' }}
+
+</button>
+
+                  </div>
+                </td>
+
+              </tr>
+
+              <tr *ngIf="registros.length === 0">
+                <td colspan="4" class="text-center">
+                  Nenhum evento encontrado
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+          <!-- PAGINAÇÃO -->
+          <nav *ngIf="totalPaginas > 1" class="mt-3">
+            <ul class="pagination justify-content-center">
+
+              <li class="page-item" [class.disabled]="paginaAtual === 1">
+                <button class="page-link" (click)="paginaAnterior()">Anterior</button>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let p of [].constructor(totalPaginas); let i = index"
+                [class.active]="paginaAtual === i + 1">
+
+                <button class="page-link" (click)="irParaPagina(i + 1)">
+                  {{ i + 1 }}
+                </button>
+
+              </li>
+
+              <li class="page-item" [class.disabled]="paginaAtual === totalPaginas">
+                <button class="page-link" (click)="proximaPagina()">Próxima</button>
+              </li>
+
+            </ul>
+          </nav>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>

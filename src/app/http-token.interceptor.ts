@@ -1,34 +1,52 @@
+
+
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent
+} from '@angular/common/http';
+
+import { Observable, from } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
-  constructor(private oidcSecurityService: OidcSecurityService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    
-    //console.log(this.oidcSecurityService.getIdToken());
-    // Adiciona o token apenas para requisições à API
-    if (request.url.includes('/api')) {
+    // só adiciona token para API
+    if (!req.url.includes('/api')) {
+      return next.handle(req);
+    }
 
+    return from(fetchAuthSession()).pipe(
 
-      this.oidcSecurityService.checkAuth().subscribe((dados) => {
-      
-        if (dados.isAuthenticated) {
-          request = request.clone({
+      switchMap((session) => {
+
+        const token = session.tokens?.accessToken?.toString();
+
+        if (token) {
+
+          const authReq = req.clone({
             setHeaders: {
-              Authorization: `Bearer ${dados.idToken}`
+              Authorization: `Bearer ${token}`
             }
           });
-         
-       
+
+          return next.handle(authReq);
         }
-      });
-     
-    }
-    return next.handle(request);
+
+        return next.handle(req);
+
+      })
+
+    );
+
   }
+
 }
+

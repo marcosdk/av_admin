@@ -1,0 +1,278 @@
+<div class="login-container d-flex align-items-center justify-content-center">
+
+  <div class="card login-card shadow">
+
+    <div class="card-body p-4">
+
+      <div class="text-center mb-4">
+
+        <img src="/logo.png" class="login-logo mb-3">
+
+        <h4 class="fw-bold">Secretaria</h4>
+        <div class="text-muted small">Conquistadores da Colina</div>
+
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">
+        {{error}}
+      </div>
+
+
+      <!-- LOGIN -->
+
+      <div *ngIf="step === AuthStep.LOGIN">
+
+        <div class="mb-3">
+
+          <label class="form-label">Email</label>
+
+          <input
+            type="email"
+            class="form-control"
+            [(ngModel)]="email"
+            placeholder="seu@email.com"
+          >
+
+        </div>
+
+        <div class="mb-3">
+
+          <label class="form-label">Senha</label>
+
+          <input
+            type="password"
+            class="form-control"
+            [(ngModel)]="password"
+            placeholder="••••••••"
+          >
+
+        </div>
+
+        <button
+          class="btn btn-dark w-100"
+          (click)="login()"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Entrando...' : 'Entrar' }}
+        </button>
+
+        <div class="text-center mt-3">
+
+          <a class="link-secondary pointer"
+             (click)="step = AuthStep.FORGOT">
+            Esqueci minha senha
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- ESQUECI SENHA -->
+
+      <div *ngIf="step === AuthStep.FORGOT">
+
+        <p class="text-muted small mb-3">
+          Informe seu email para receber o código.
+        </p>
+
+        <div class="mb-3">
+
+          <label class="form-label">Email</label>
+
+          <input
+            type="email"
+            class="form-control"
+            [(ngModel)]="email"
+          >
+
+        </div>
+
+        <button
+          class="btn btn-dark w-100"
+          (click)="forgotPassword()"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Enviando...' : 'Enviar código' }}
+        </button>
+
+        <div class="text-center mt-3">
+
+          <a class="link-secondary pointer"
+             (click)="step = AuthStep.LOGIN">
+            ← Voltar ao login
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESET PASSWORD -->
+
+      <div *ngIf="step === AuthStep.RESET">
+
+        <p class="text-muted small mb-3">
+          Informe o código recebido e sua nova senha.
+        </p>
+
+        <div class="mb-3">
+
+          <label class="form-label">Código</label>
+
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="code"
+          >
+
+        </div>
+
+        <div class="mb-3">
+
+          <label class="form-label">Nova senha</label>
+
+          <input
+            type="password"
+            class="form-control"
+            [(ngModel)]="newPassword"
+          >
+
+            <div class="password-rules mt-2" *ngIf="newPassword">
+
+                <div *ngFor="let rule of passwordRules" class="rule-item">
+
+                    <i
+                    class="bi"
+                    [ngClass]="rule.test(newPassword) ? 'bi-check-circle text-success' : 'bi-x-circle text-danger'"
+                    ></i>
+
+                    <span
+                    [ngClass]="rule.test(newPassword) ? 'text-success' : 'text-danger'"
+                    >
+                    {{ rule.label }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">Confirmar senha</label>
+
+            <input
+                type="password"
+                class="form-control"
+                [(ngModel)]="confirmPassword"
+            >
+
+            <div *ngIf="confirmPassword" class="mt-2 small">
+
+                <span *ngIf="newPassword === confirmPassword" class="text-success">
+                    <i class="bi bi-check-circle"></i>
+                    As senhas conferem
+                </span>
+
+                <span *ngIf="newPassword !== confirmPassword" class="text-danger">
+                    <i class="bi bi-x-circle"></i>
+                    As senhas não conferem
+                </span>
+
+            </div>
+
+        </div>
+
+        <button
+          class="btn btn-dark w-100"
+          (click)="resetPassword()"
+          [disabled]="!passwordValida() || newPassword !== confirmPassword || loading"
+        >
+          Redefinir senha
+        </button>
+
+      </div>
+
+
+      <!-- TROCA SENHA -->
+
+      <div *ngIf="step === AuthStep.CHANGE_PASSWORD">
+
+        <p class="text-muted small mb-3">
+          Você precisa definir uma nova senha.
+        </p>
+
+        <div class="mb-3">
+
+          <label class="form-label">Nova senha</label>
+
+          <input
+            type="password"
+            class="form-control"
+            [(ngModel)]="newPassword"
+          >
+
+          <div class="password-rules mt-2" *ngIf="newPassword">
+
+                <div *ngFor="let rule of passwordRules" class="rule-item">
+
+                    <i
+                    class="bi"
+                    [ngClass]="rule.test(newPassword) ? 'bi-check-circle text-success' : 'bi-x-circle text-danger'"
+                    ></i>
+
+                    <span
+                    [ngClass]="rule.test(newPassword) ? 'text-success' : 'text-danger'"
+                    >
+                    {{ rule.label }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">Confirmar senha</label>
+
+            <input
+                type="password"
+                class="form-control"
+                [(ngModel)]="confirmPassword"
+            >
+            <div *ngIf="confirmPassword" class="mt-2 small">
+
+                <span *ngIf="newPassword === confirmPassword" class="text-success">
+                    <i class="bi bi-check-circle"></i>
+                    As senhas conferem
+                </span>
+
+                <span *ngIf="newPassword !== confirmPassword" class="text-danger">
+                    <i class="bi bi-x-circle"></i>
+                    As senhas não conferem
+                </span>
+
+            </div>
+
+        </div>
+
+        <button
+          class="btn btn-dark w-100"
+          (click)="changePassword()"
+          [disabled]="!passwordValida() || newPassword !== confirmPassword || loading"
+        >
+          Alterar senha
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

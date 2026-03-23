@@ -1,0 +1,35 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Editar Usuário</h1>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="mb-3">
+          <label>Perfil</label>
+          <select class="form-select" [(ngModel)]="usuario.perfil">
+            <option value="USER">Usuário</option>
+            <option value="ADMIN">Administrador</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label>Ativo</label>
+          <select class="form-select" [(ngModel)]="usuario.ativo">
+            <option [ngValue]="true">Ativo</option>
+            <option [ngValue]="false">Inativo</option>
+          </select>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-dark me-2" (click)="salvar()">Salvar</button>
+          <button class="btn btn-secondary" (click)="voltar()">Voltar</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>

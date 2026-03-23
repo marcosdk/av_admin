@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -12,6 +13,8 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthService {
 
+    
+
     email: string | null = null;
     nome: string | null = null;
 
@@ -22,7 +25,7 @@ export class AuthService {
         this.isAuthenticated = this.oidcSecurityService.isAuthenticated$.pipe(
             map((auth) => auth.isAuthenticated) // Extraindo o valor booleano
 
-    );
+         );
 
     }
     
@@ -42,6 +45,9 @@ export class AuthService {
     getNome(): string | null {
         return this.nome;
     }
+
+    
+
     login() {
         console.log("logando");
         this.oidcSecurityService.authorize();

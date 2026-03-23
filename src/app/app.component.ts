@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-
+import { environment } from '../environments/environment';
+import { CognitoService } from './auth/cognito.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,33 +15,44 @@ export class AppComponent implements OnInit {
   title = 'pc_admin';
  
   
+  isLoginPage = false;
   isAuthenticated = false;
 
-  constructor(private oidcSecurityService: OidcSecurityService) {
+  constructor( private cognitoService: CognitoService,  private router: Router ) {
     
   }
   
 
   ngOnInit(): void {
-      
+      // Detecta mudança de rota
+    this.router.events.subscribe(event => {
+
+      if (event instanceof NavigationEnd) {
+
+        this.isLoginPage = event.urlAfterRedirects.startsWith('/login');
+
+      }
+
+    });
   }
 
   login(): void {
-    this.oidcSecurityService.authorize(); // Inicia o fluxo de login
+    this.router.navigate(['/login']);
   }
 
   logout(): void {
+
+    this.cognitoService.logout();
+
     console.warn('Acionou o logout ');
 
-    this.oidcSecurityService.logoff(); // Faz logout
-
+    
     // Clear session storage
     if (window.sessionStorage) {
       window.sessionStorage.clear();
     }
                             
-    window.location.href = "https://sa-east-1ukbz1g50a.auth.sa-east-1.amazoncognito.com/login?client_id=7mti6kj1asbe4acqufmt84hnp1&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fd2xifqim8uhfbn.cloudfront.net"; 
-
+    
   }
 
 }

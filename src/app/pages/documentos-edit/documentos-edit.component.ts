@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import imageCompression from 'browser-image-compression';
 import { ImageTransform, ImageCroppedEvent } from 'ngx-image-cropper';
+import { environment } from '../../../environments/environment.prod';
 
 
 
@@ -17,6 +18,8 @@ import { ImageTransform, ImageCroppedEvent } from 'ngx-image-cropper';
   
 })
 export class DocumentosEditComponent implements OnInit {
+
+  apiGatewayUrl= environment.apiUrlApiGateway;
 
 
   imageBase64: string | null = null;
@@ -64,7 +67,8 @@ export class DocumentosEditComponent implements OnInit {
     { key: 'carteiraVacDesbravador', label: 'Carteira de Vacinação do Desbravador' },
     { key: 'comResidenciaDesbravador', label: 'Comprovante de Residência' },
     { key: 'rgResponsavel', label: 'RG do Responsável' },
-    { key: 'cpfResponsavel', label: 'CPF do Responsável' }
+    { key: 'cpfResponsavel', label: 'CPF do Responsável' },
+    { key: 'antecedentesCriminais', label: 'Antecedentes Criminais' }
   ];
 
   constructor(private route: ActivatedRoute, private http: HttpClient,  private fb: FormBuilder, private router: Router, private cdr: ChangeDetectorRef, private ngZone: NgZone) {
@@ -124,7 +128,7 @@ export class DocumentosEditComponent implements OnInit {
 
 
   getFiles(id: string): void {
-    this.http.get<{ nome: string; link: string; key: string, extension: string, file:string }[]>(`https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/list/${id}`).subscribe({
+    this.http.get<{ nome: string; link: string; key: string, extension: string, file:string }[]>( `${this.apiGatewayUrl}/api/cadastro/documentos/list/${id}`).subscribe({
       next: (response) => {
         this.arquivos = response;
       },
@@ -135,7 +139,7 @@ export class DocumentosEditComponent implements OnInit {
   }
 
   getData(id: string): void {
-    this.http.get(`https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/${id}`).subscribe({
+    this.http.get(`${this.apiGatewayUrl}/api/cadastro/documentos/${id}`).subscribe({
       next: (response) => {
         this.formData = response;
         if (this.formData.DATA_NASCIMENTO) {
@@ -155,7 +159,7 @@ export class DocumentosEditComponent implements OnInit {
   }
   
   deleteRegistro(id: string): void {
-    this.http.delete(`https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos?id=${id}`).subscribe({
+    this.http.delete(`${this.apiGatewayUrl}/api/cadastro/documentos?id=${id}`).subscribe({
       next: () => {
         alert('Registro excluído com sucesso.');
         console.log('Dados atualizados com sucesso:');
@@ -188,8 +192,8 @@ export class DocumentosEditComponent implements OnInit {
              dataToSend.DATA_NASCIMENTO = this.formatDateToISO(dataToSend.DATA_NASCIMENTO);
              console.log('dataToSend.DATA_NASCIMENTO', dataToSend.DATA_NASCIMENTO);
          }
- 
-         const postUrl = `https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos`;
+
+         const postUrl = `${this.apiGatewayUrl}/api/cadastro/documentos`;
          this.http.post<{ id: string }>(postUrl, dataToSend).subscribe({
              next: (response) => {
                  console.log('Registro criado com sucesso:', response);
@@ -212,7 +216,7 @@ export class DocumentosEditComponent implements OnInit {
         console.log('dataToSend.DATA_NASCIMENTO', dataToSend.DATA_NASCIMENTO);
       }
 
-      const url = `https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos`;
+      const url = `${this.apiGatewayUrl}/api/cadastro/documentos`;
       this.http.put(url, dataToSend).subscribe({
         next: (response) => {
           console.log('Dados atualizados com sucesso:', response);
@@ -254,7 +258,7 @@ export class DocumentosEditComponent implements OnInit {
   }
 
   deleteFile(idDesbravador: string, tipoArquivo: string, keyArquivo:string): void {
-    const url = `https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/file/delete`;
+    const url = `${this.apiGatewayUrl}/api/cadastro/documentos/file/delete`;
   
     const payload = {
       idDesbravador: idDesbravador,
@@ -285,10 +289,10 @@ export class DocumentosEditComponent implements OnInit {
     if (file) {
 
 
-      const allowedTypes = ['image/jpeg', 'application/pdf'];
+      const allowedTypes = ['image/jpeg'];
 
       if (!allowedTypes.includes(file.type)) {
-        alert('Apenas arquivos JPG ou PDF são permitidos.');
+        alert('Apenas arquivos JPG são permitidos.');
         event.target.value = '';
         return;
       }
@@ -343,7 +347,7 @@ export class DocumentosEditComponent implements OnInit {
     formData.append('tipoDocumento', this.tipoDocumentoSelecionado);
     formData.append('arquivo', this.arquivoSelecionado);
 
-    const apiUrlUpload   = 'https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/file';
+    const apiUrlUpload   = `${this.apiGatewayUrl}/api/cadastro/documentos/file`;
     const payloadUpload = {
       idDesbravador: this.id,
       tipoArquivo: this.tipoDocumentoSelecionado,
@@ -451,7 +455,7 @@ export class DocumentosEditComponent implements OnInit {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     this.http.post<{ message: string; pdfUrl: string }>(
-      'https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/ficha-pdf',
+      `${this.apiGatewayUrl}/api/cadastro/documentos/ficha-pdf`,
       body,
       { headers }
     ).subscribe(response => {
@@ -493,7 +497,7 @@ export class DocumentosEditComponent implements OnInit {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     
     this.http.post<{ message: string; pdfUrl: string }>(
-      'https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/ficha-pdf',
+      `${this.apiGatewayUrl}/api/cadastro/documentos/ficha-pdf`,
       body,
       { headers }
     ).subscribe(response => {
@@ -533,7 +537,7 @@ export class DocumentosEditComponent implements OnInit {
     this.cdr.detectChanges(); // Força o Angular a atualizar a UI
 
   
-    const url = `https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/file/delete`;
+    const url = `${this.apiGatewayUrl}/api/cadastro/documentos/file/delete`;
   
     let deletados = 0;
   
@@ -572,36 +576,8 @@ export class DocumentosEditComponent implements OnInit {
   
   
 
- /* editImage(arquivo: any) {
-
-
-    this.currentEditingFile = arquivo;
-
-    // Criar um evento simulado para o cropper
-    const fakeEvent = {
-      target: {
-        files: [] as any[]
-      }
-    };
-
-    console.log('Editando imagem:', arquivo.link);
-
-    // Criar uma URL da imagem para carregar no cropper
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", arquivo.link, true);
-    xhr.responseType = "blob";
-    xhr.onload = () => {
-      const blob = xhr.response;
-      const file = new File([blob], arquivo.nome, { type: "image/jpeg" });
-      fakeEvent.target.files[0] = file;
-      this.imageChangedEvent = fakeEvent;
-      this.showCropper = true;
-    };
-    xhr.send();
-  }
-*/
 editImage(arquivo: any) {
-  console.log('🟨 Iniciando edição da imagem:', arquivo);
+  
   this.currentEditingFile = arquivo;
   this.showCropper = false; // garante recriação do componente
 
@@ -636,9 +612,9 @@ editImage(arquivo: any) {
 
 
    async onImageCropped(event:any) {
-    console.log('Imagem cortada:', event);
+    
     this.croppedImage = await this.blobToBase64(event.blob);
-    console.log('x: ', this.croppedImage);
+    
   }
 
 
@@ -673,42 +649,12 @@ console.log('111');
   console.log('tipoArquivo', keyArquivo);
   console.log('idDesbravador', this.id);
 
-  // Envia para o backend
-/*  this.http.post('https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/file', formData)
-    .subscribe({
-      next: () => {
-        // Atualiza tabela para mostrar a imagem cortada
-        this.currentEditingFile.preview = this.croppedImage;
-
-        // Fecha cropper
-        this.showCropper = false;
-        this.croppedImage = null;
-        this.currentEditingFile = null;
-
-        // Recarrega arquivos do backend (opcional, se precisar garantir atualização)
-        this.getFiles(this.id);
-        alert('Imagem cortada e atualizada com sucesso!');
-      },
-      error: (err) => {
-        console.error('Erro ao enviar imagem cortada:', err);
-        alert('Erro ao atualizar a imagem. Tente novamente.');
-      }
-    });*/
-
-
-    ///
-
 
      
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    // Simulação de envio para o servidor
-    /*const formData = new FormData();
-    formData.append('tipoDocumento', this.tipoDocumentoSelecionado);
-    formData.append('arquivo', this.arquivoSelecionado);*/
-
-    const apiUrlUpload   = 'https://yuw8fulryb.execute-api.sa-east-1.amazonaws.com/api/cadastro/documentos/file';
+    const apiUrlUpload   = `${this.apiGatewayUrl}/api/cadastro/documentos/file`;
     const payloadUpload = {
       idDesbravador: this.id,
       tipoArquivo: this.currentEditingFile.key,

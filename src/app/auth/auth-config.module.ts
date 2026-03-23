@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { AuthModule } from 'angular-auth-oidc-client';
+import { LoginComponent } from './pages/login/login.component';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
-    imports: [AuthModule.forRoot({
+    imports:[
+        FormsModule,
+        AuthModule.forRoot({
         config: {
               authority: 'https://cognito-idp.sa-east-1.amazonaws.com/sa-east-1_ukbz1G50a',
               redirectUrl: window.location.origin,
@@ -17,5 +22,8 @@ import { AuthModule } from 'angular-auth-oidc-client';
           }
       })],
     exports: [AuthModule],
+    declarations: [
+      LoginComponent
+    ],
 })
 export class AuthConfigModule {}

@@ -1,0 +1,188 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Usuários</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/usuarios">Usuários</a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ sub === 'novo' ? 'Novo' : 'Editar' }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <h5 class="card-title">
+          {{ sub === 'novo' ? 'Novo Usuário' : 'Editar Usuário' }}
+        </h5>
+
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email *</label>
+            <input
+              class="form-control"
+              [(ngModel)]="email"
+              required
+              [disabled]="sub !== 'novo'">
+
+            <div class="text-danger mt-1" *ngIf="erroEmail">
+                {{erroEmail}}
+            </div>  
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Nome *</label>
+            <input
+              class="form-control"
+              [(ngModel)]="nome"
+              required>
+          </div>
+
+          <div class="col-md-6 mb-3" *ngIf="sub === 'novo'">
+            <label class="form-label">Senha temporária *</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="senhaTemporaria">
+
+            <div class="text-danger mt-1" *ngIf="erroSenha">
+                {{erroSenha}}
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Status</label>
+
+            <select class="form-select" [(ngModel)]="ativo">
+              <option [ngValue]="true">Ativo</option>
+              <option [ngValue]="false">Inativo</option>
+            </select>
+          </div>
+
+        </div>
+
+        <hr>
+
+        <h5 class="card-title">Grupos</h5>
+
+        <div class="row">
+
+          <!-- DISPONÍVEIS -->
+
+          <div class="col-md-5">
+
+            <label class="form-label">Disponíveis</label>
+
+            <div class="border rounded p-2 bg-light" style="height:200px; overflow-y:auto;">
+
+              <ul class="list-group">
+
+                <li
+                  class="list-group-item"
+                  *ngFor="let g of gruposDisponiveis"
+                  (click)="selecionarDisponivel(g)"
+                  [class.active]="grupoDisponivelSelecionado === g"
+                  style="cursor:pointer">
+
+                  {{ g }}
+
+                </li>
+
+              </ul>
+
+            </div>
+
+          </div>
+
+          <!-- BOTÕES -->
+
+          <div class="col-md-2 d-flex flex-column justify-content-center align-items-center gap-2">
+
+            <button
+              class="btn btn-dark btn-sm"
+              (click)="adicionarGrupo()">
+              Adicionar →
+            </button>
+
+            <button
+              class="btn btn-secondary btn-sm"
+              (click)="removerGrupo()">
+              ← Remover
+            </button>
+
+          </div>
+
+          <!-- SELECIONADOS -->
+
+          <div class="col-md-5">
+
+            <label class="form-label">Selecionados</label>
+
+            <div class="border rounded p-2 bg-light" style="height:200px; overflow-y:auto;">
+
+              <ul class="list-group">
+
+                <li
+                  class="list-group-item"
+                  *ngFor="let g of gruposSelecionados"
+                  (click)="selecionarSelecionado(g)"
+                  [class.active]="grupoSelecionadoSelecionado === g"
+                  style="cursor:pointer">
+
+                  {{ g }}
+
+                </li>
+
+              </ul>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="text-danger mt-2" *ngIf="erroGrupo">
+            {{erroGrupo}}
+        </div>
+
+        <br>
+
+        <div class="text-center">
+
+          <button
+            class="btn btn-dark me-2"
+            (click)="salvar()"
+            [disabled]="!email || !nome">
+            Salvar
+          </button>
+
+          <button
+            class="btn btn-secondary me-2"
+            (click)="voltar()">
+            Voltar
+          </button>
+
+          <button
+            *ngIf="sub !== 'novo'"
+            class="btn btn-danger"
+            (click)="excluir()">
+            Excluir
+        </button>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>

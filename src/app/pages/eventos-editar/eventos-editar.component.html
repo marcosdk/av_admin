@@ -1,0 +1,153 @@
+<main id="main" class="main">
+
+    
+
+  <div class="pagetitle">
+    <h1>Eventos</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/eventos">Eventos</a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ id === 'novo' ? 'Novo' : 'Editar' }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <h5 class="card-title">
+          {{ id === 'novo' ? 'Novo Evento' : 'Editar Evento' }}
+        </h5>
+
+        <!-- DADOS -->
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label>Nome *</label>
+            <input class="form-control" [(ngModel)]="name" placeholder="Exemplo: Dia Mundial da Alegria">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Data *</label>
+            <input class="form-control" [(ngModel)]="date" placeholder="Exemplo: 15 a 18 de Julho de 2026">
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Descrição</label>
+            <textarea class="form-control" [(ngModel)]="description"></textarea>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Status</label>
+            <select class="form-select" [(ngModel)]="active">
+              <option value="true">Ativo</option>
+              <option value="false">Inativo</option>
+            </select>
+          </div>
+
+        </div>
+
+        <hr>
+
+        <!-- PAGAMENTOS -->
+        <h5 class="card-title">Formas de Pagamento</h5>
+
+        <div *ngFor="let p of paymentOptions; let i = index" class="border p-3 mb-3 rounded">
+
+          <div class="row">
+
+            <div class="col-md-3">
+              <label>Tipo</label>
+              <select class="form-select" [(ngModel)]="p.id" (change)="onTipoChange(p)">
+                <option value="pix_vista">Pix à vista</option>
+                <option value="pix_parcelado">Pix parcelado</option>
+                <option value="cartao">Cartão</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label>Label</label>
+              <input class="form-control" [(ngModel)]="p.label" placeholder="Exemplo: Pix">
+            </div>
+
+            <div class="col-md-3">
+              <label>Descrição</label>
+              <input class="form-control" [(ngModel)]="p.description" placeholder="Exemplo: 10x R$ 100,00">
+            </div>
+
+            <div class="col-md-2">
+              <label>Valor</label>
+              <input type="number" class="form-control" [(ngModel)]="p.value">
+            </div>
+
+            <div class="col-md-1 d-flex align-items-end">
+              <button class="btn btn-danger w-100" (click)="removerPagamento(i)">
+                X
+              </button>
+            </div>
+
+          </div>
+
+          <div class="row mt-2" *ngIf="p.id !== 'pix_vista'">
+            <div class="col-md-3">
+              <label>Parcelas</label>
+              <input type="number" class="form-control" [(ngModel)]="p.installments">
+            </div>
+          </div>
+
+          <!-- PIX -->
+            <div class="row mt-2" *ngIf="p.id === 'pix_vista' || p.id === 'pix_parcelado'">
+            <div class="col-md-6">
+                <label>Chave Pix</label>
+                <input class="form-control" [(ngModel)]="p.pixKey" placeholder="Ex: email, CPF ou chave aleatória">
+            </div>
+            </div>
+
+            <!-- CARTÃO -->
+            <div class="row mt-2" *ngIf="p.id === 'cartao'">
+            <div class="col-md-6">
+                <label>URL de pagamento</label>
+                <input class="form-control" [(ngModel)]="p.url" placeholder="https://...">
+            </div>
+            </div>
+
+        </div>
+
+        <button class="btn btn-secondary mb-3" (click)="adicionarPagamento()">
+          + Adicionar forma de pagamento
+        </button>
+
+        <div class="text-danger mb-2" *ngIf="erro">
+          {{erro}}
+        </div>
+
+        <!-- AÇÕES -->
+        <div class="text-center">
+
+          <button class="btn btn-dark me-2" (click)="salvar()">
+            Salvar
+          </button>
+
+          <button class="btn btn-secondary me-2" (click)="voltar()">
+            Voltar
+          </button>
+
+          <button *ngIf="id !== 'novo'" class="btn btn-danger" (click)="excluir()">
+            Excluir
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
