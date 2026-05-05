@@ -30,7 +30,7 @@ export class DocumentosComponent implements OnInit{
   lastEvaluatedKeys: any[] = []; // Lista de lastEvaluatedKey para cada página
 
   
-  apiUrl = environment.apiUrlDocumentos;
+  apiUrl = environment.apiUrlDocumentosV2;
 
   selectedDocs: any[] = [];
 
@@ -92,7 +92,7 @@ toggleSelectAll(event: any) {
       .set('status', this.status)
       .set('page', this.currentPage.toString());
 
-      console.log('this.currentPage', this.currentPage);
+      //console.log('this.currentPage', this.currentPage);
     this.http.get<any>(this.apiUrl, { params }).subscribe(
       (response) => {
         this.documentos = response.items.map((doc: any) => ({

@@ -16,6 +16,8 @@ import { UsuariosEditarComponent } from './pages/usuarios-editar/usuarios-editar
 import { LoginComponent } from './pages/login/login.component';
 import { EventosListaComponent } from './pages/eventos-lista/eventos-lista.component';
 import { EventosEditarComponent } from './pages/eventos-editar/eventos-editar.component';
+import { PaymentsListaComponent } from './pages/payments-lista/payments-lista.component';
+import { PaymentsEditarComponent } from './pages/payments-editar/payments-editar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -29,6 +31,9 @@ const routes: Routes = [
   { path: 'matriculas/:cpf', component: MatriculasEditarComponent ,  canActivate: [AuthGuard]},
   { path: 'auth-callback', component: AuthCallbackComponent }, // Callback
   { path: 'usuarios', component: UsuariosListaComponent ,  canActivate: [AuthGuard]},
+  { path: 'pagamentos', component: PaymentsListaComponent ,  canActivate: [AuthGuard]},
+  { path: 'pagamentos/editar/:id', component: PaymentsEditarComponent ,  canActivate: [AuthGuard]},
+  { path: 'pagamentos/editar/novo', component: PaymentsEditarComponent ,  canActivate: [AuthGuard]},
   { path: 'eventos', component: EventosListaComponent ,  canActivate: [AuthGuard]},
   { path: 'eventos/editar/:id', component: EventosEditarComponent ,  canActivate: [AuthGuard]},
   { path: 'eventos/editar/novo', component: EventosEditarComponent ,  canActivate: [AuthGuard]},

@@ -1,0 +1,153 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Pagamentos</h1>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- FILTROS -->
+        <div class="row mb-4">
+
+          <div class="col-md-3">
+            <label>Nome</label>
+            <input class="form-control" [(ngModel)]="nome">
+          </div>
+
+          <div class="col-md-3">
+            <label>CPF</label>
+            <input class="form-control" [(ngModel)]="cpf">
+          </div>
+
+          <div class="col-md-3">
+            <label>Status</label>
+            <select class="form-select" [(ngModel)]="status">
+              <option value="">Todos</option>
+              <option value="PENDING">Pendente</option>
+              <option value="APPROVED">Aprovado</option>
+              <option value="REJECTED">Reprovado</option>
+            </select>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-end">
+            <button class="btn btn-dark w-100" (click)="pesquisar()">
+              Pesquisar
+            </button>
+          </div>
+
+        </div>
+
+        <!-- TABELA -->
+        <div class="table-responsive">
+          <table class="table table-bordered">
+
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Evento</th>
+                <th>Valor</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let p of registrosPaginados">
+
+                <td>{{p.childName}}</td>
+                <td>{{p.eventName}}</td>
+                <td>{{p.amount}}</td>
+
+                <td>
+                  <span class="badge"
+                    [class.bg-warning]="p.status === 'PENDING'"
+                    [class.bg-success]="p.status === 'APPROVED'"
+                    [class.bg-danger]="p.status === 'REJECTED'">
+
+                    {{p.status}}
+                  </span>
+                </td>
+
+                <td>{{p.createdAt | date:'dd/MM/yyyy HH:mm'}}</td>
+
+                <td>
+                  <div class="d-flex gap-2 flex-wrap">
+
+                    <button class="btn btn-dark btn-sm" (click)="editar(p.id)">
+                      Editar
+                    </button>
+
+                    <button class="btn btn-success btn-sm" (click)="aprovar(p)">
+                      Aprovar
+                    </button>
+
+                    <button class="btn btn-warning btn-sm" (click)="reprovar(p)">
+                      Reprovar
+                    </button>
+
+                    <button class="btn btn-info btn-sm" (click)="verComprovante(p)">
+                      Comprovante
+                    </button>
+
+                    <button class="btn btn-danger btn-sm" (click)="excluir(p)">
+                      Excluir
+                    </button>
+
+                  </div>
+                </td>
+
+              </tr>
+
+              <tr *ngIf="registros.length === 0">
+                <td colspan="6" class="text-center">
+                  Nenhum pagamento encontrado
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+          <!-- PAGINAÇÃO -->
+          <nav *ngIf="totalPaginas > 1" class="mt-3">
+            <ul class="pagination justify-content-center">
+
+              <li class="page-item" [class.disabled]="paginaAtual === 1">
+                <button class="page-link" (click)="paginaAnterior()">Anterior</button>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="let p of [].constructor(totalPaginas); let i = index"
+                [class.active]="paginaAtual === i + 1">
+
+                <button class="page-link" (click)="irParaPagina(i + 1)">
+                  {{ i + 1 }}
+                </button>
+
+              </li>
+
+              <li class="page-item" [class.disabled]="paginaAtual === totalPaginas">
+                <button class="page-link" (click)="proximaPagina()">Próxima</button>
+              </li>
+
+            </ul>
+          </nav>
+
+        </div>
+
+        <div class="mb-3 text-end">
+        <button class="btn btn-success" (click)="exportarExcel()">
+            Exportar Excel
+        </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>

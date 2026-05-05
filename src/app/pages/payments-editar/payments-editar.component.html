@@ -1,0 +1,134 @@
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Pagamentos</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/pagamentos">Pagamentos</a>
+        </li>
+        <li class="breadcrumb-item active">
+          Editar
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="card">
+      <div class="card-body">
+
+        <h5 class="card-title">Editar Pagamento</h5>
+
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+            <label>Nome</label>
+            <input class="form-control" [(ngModel)]="childName" disabled>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>CPF</label>
+            <input class="form-control" [(ngModel)]="cpf" disabled>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Evento</label>
+            <input class="form-control" [(ngModel)]="eventName" disabled>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Método</label>
+            <select class="form-select" [(ngModel)]="paymentMethod">
+              <option value="pix_vista">Pix à vista</option>
+              <option value="pix_parcelado">Pix parcelado</option>
+              <option value="cartao">Cartão</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Valor</label>
+            <input class="form-control" [(ngModel)]="amount">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label>Status</label>
+            <select class="form-select" [(ngModel)]="status">
+              <option value="PENDING">Pendente</option>
+              <option value="APPROVED">Aprovado</option>
+              <option value="REJECTED">Reprovado</option>
+            </select>
+          </div>
+
+          <div class="col-md-12 mb-3" *ngIf="filePreviewUrl">
+
+            <label>Comprovante</label>
+
+            <!-- IMAGEM -->
+            <div *ngIf="fileType === 'image'" class="mt-2 text-center">
+                <img
+                [src]="filePreviewUrl"
+                class="img-fluid rounded border"
+                style="max-height: 400px;"
+                />
+            </div>
+
+            <!-- PDF -->
+            <div *ngIf="fileType === 'pdf'" class="mt-2">
+                <iframe
+                [src]="filePreviewUrl"
+                width="100%"
+                height="500px"
+                style="border: 1px solid #ccc; border-radius: 8px;">
+                </iframe>
+            </div>
+
+            <!-- FALLBACK -->
+            <div *ngIf="fileType === 'unknown'" class="mt-2">
+                <a [href]="filePreviewUrl" target="_blank" class="btn btn-outline-primary">
+                Abrir comprovante
+                </a>
+            </div>
+
+            </div>
+
+          <div class="col-md-12 mb-3">
+            <label>Observações</label>
+            <textarea class="form-control" [(ngModel)]="notes"></textarea>
+          </div>
+
+        </div>
+
+        <div class="text-danger mb-2" *ngIf="erro">
+          {{erro}}
+        </div>
+
+        <!-- AÇÕES -->
+        <div class="text-center">
+
+          <button class="btn btn-dark me-2" (click)="salvar()">
+            Salvar
+          </button>
+
+          <button class="btn btn-info me-2" (click)="verComprovante()">
+            Ver Comprovante
+          </button>
+
+          <button class="btn btn-secondary me-2" (click)="voltar()">
+            Voltar
+          </button>
+
+          <button class="btn btn-danger" (click)="excluir()">
+            Excluir
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>

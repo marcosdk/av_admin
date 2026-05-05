@@ -29,6 +29,8 @@ import { UsuariosEditarComponent } from './pages/usuarios-editar/usuarios-editar
 import { LoginComponent } from './pages/login/login.component';
 import { EventosListaComponent } from './pages/eventos-lista/eventos-lista.component';
 import { EventosEditarComponent } from './pages/eventos-editar/eventos-editar.component';
+import { PaymentsListaComponent } from './pages/payments-lista/payments-lista.component';
+import { PaymentsEditarComponent } from './pages/payments-editar/payments-editar.component';
 
 
   
@@ -54,6 +56,8 @@ import { EventosEditarComponent } from './pages/eventos-editar/eventos-editar.co
     LoginComponent,
     EventosListaComponent,
     EventosEditarComponent,
+    PaymentsListaComponent,
+    PaymentsEditarComponent,
   ],
   imports: [
     BrowserModule,
